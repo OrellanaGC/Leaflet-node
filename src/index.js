@@ -8,7 +8,13 @@ const http = require('http');
 //iniicalizations
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+      cors: {
+        origin: ["http://localhost:3000","http://localhost:4200/"],
+        methods: ["GET", "POST"],
+        transports: [ 'websocket', 'polling' ]
+      }
+    });
 
 //settings
 app.engine('ejs', engine);
@@ -25,20 +31,6 @@ require('./sockets')(io);
 app.use(express.static(path.join(__dirname, 'public')));
 
 //starting the server
-server.listen(3000, () => {
+server.listen(3000, {log:false, origins:':'}, () => {
     console.log('Server on port 3000');
-});
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-
-    // authorized headers for preflight requests
-    // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-
-    app.options('*', (req, res) => {
-        // allowed XHR methods  
-        res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-        res.send();
-    });
 });

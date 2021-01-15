@@ -16,7 +16,7 @@ mymap.locate({enableHighAccuracy: true});
 //mandar la ubicacion al websocket
 mymap.on('locationfound', e => {
     console.log(e);
-    const coords = [e.latlng.lat-.1, e.latlng.lng];
+    const coords = [e.latlng.lat, e.latlng.lng];
     const marker = L.marker(coords);
 marker.bindPopup('Rastreada');
 mymap.addLayer(marker);
