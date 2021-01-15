@@ -2,7 +2,9 @@ module.exports = io => {
     io.on('connection', (socket) =>{
         socket.on('userCoordinates',coords => {
             console.log(coords);
-            socket.emit('newUserCoordinates',coords);
+            coords.lat = coords.lat+(Math.random() * (0.09-0.01))+0.09;
+            coords.lng = coords.lng+(Math.random() * (0.9-0.01))-0.09;
+            socket.broadcast.emit('newUserCoordinates',coords);
             console.log(coords);
             console.log('New transfer websocket');
         });
