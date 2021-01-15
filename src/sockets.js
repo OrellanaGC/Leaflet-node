@@ -1,7 +1,9 @@
 module.exports = io => {
     io.on('connection', (socket) =>{
         socket.on('userCoordinates',coords => {
-            socket.broadcast.emit('userCoordinates',coords);
+            console.log(coords);
+            socket.emit('newUserCoordinates',coords);
+            console.log(coords);
             console.log('New transfer websocket');
         });
         socket.on('my message', (msg) => {
@@ -16,5 +18,5 @@ module.exports = io => {
         console.log('Socket disconnected');
         });       
 
-
 }
+
